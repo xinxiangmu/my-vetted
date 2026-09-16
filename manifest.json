@@ -322,7 +322,8 @@
       "tags": [
         "text",
         "chunking",
-        "llm"
+        "llm",
+        "agent"
       ],
       "language": "python",
       "entry": "text_chunker",
