@@ -1,0 +1,72 @@
+{
+  "id": "tool_registry",
+  "version": "1.0.0",
+  "description": "Expose Python callables as LLM tools and dispatch calls back",
+  "tags": [
+    "llm",
+    "tools",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "tool_registry",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "ToolError",
+      "params": [],
+      "returns": null,
+      "doc": "The model asked for an unknown tool, or called a known one wrongly."
+    },
+    {
+      "name": "build_schema",
+      "params": [
+        "fn: Callable"
+      ],
+      "returns": "dict",
+      "doc": "An OpenAI/Anthropic-style tool declaration read off the signature."
+    },
+    {
+      "name": "ToolRegistry",
+      "params": [],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "ToolRegistry.register",
+      "params": [
+        "fn: Callable",
+        "name: str | None"
+      ],
+      "returns": "Callable",
+      "doc": "Register a callable. Usable as a decorator."
+    },
+    {
+      "name": "ToolRegistry.unregister",
+      "params": [
+        "name: str"
+      ],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "ToolRegistry.schemas",
+      "params": [],
+      "returns": "list[dict]",
+      "doc": null
+    },
+    {
+      "name": "ToolRegistry.call",
+      "params": [
+        "name: str",
+        "arguments: dict | None"
+      ],
+      "returns": "Any",
+      "doc": "Dispatch one tool call, validating names and required arguments first."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

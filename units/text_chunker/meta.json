@@ -1,0 +1,38 @@
+{
+  "id": "text_chunker",
+  "version": "1.0.0",
+  "description": "Split long text into overlapping chunks on sentence boundaries",
+  "tags": [
+    "text",
+    "chunking",
+    "llm"
+  ],
+  "language": "python",
+  "entry": "text_chunker",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "chunk",
+      "params": [
+        "text: str",
+        "size: int",
+        "overlap: int"
+      ],
+      "returns": "list[str]",
+      "doc": "Chunks of at most `size` characters, each repeating `overlap` from the last."
+    },
+    {
+      "name": "total_chars",
+      "params": [
+        "chunks: list[str]"
+      ],
+      "returns": "int",
+      "doc": null
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

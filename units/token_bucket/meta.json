@@ -1,0 +1,51 @@
+{
+  "id": "token_bucket",
+  "version": "1.0.0",
+  "description": "Token bucket rate limiter with injectable clock",
+  "tags": [
+    "ratelimit",
+    "throttle"
+  ],
+  "language": "python",
+  "entry": "token_bucket",
+  "effects": [
+    "time"
+  ],
+  "signatures": [
+    {
+      "name": "TokenBucket",
+      "params": [
+        "capacity: int",
+        "refill_per_sec: float",
+        "clock: Callable[[], float]"
+      ],
+      "returns": null,
+      "doc": "Allows `capacity` bursts, refilling at `refill_per_sec` tokens per second."
+    },
+    {
+      "name": "TokenBucket.tokens",
+      "params": [],
+      "returns": "float",
+      "doc": null
+    },
+    {
+      "name": "TokenBucket.take",
+      "params": [
+        "n: int"
+      ],
+      "returns": "bool",
+      "doc": "Consume n tokens. Returns False and consumes nothing if short."
+    },
+    {
+      "name": "TokenBucket.wait_time",
+      "params": [
+        "n: int"
+      ],
+      "returns": "float",
+      "doc": "Seconds until n tokens are available. 0.0 if available now."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

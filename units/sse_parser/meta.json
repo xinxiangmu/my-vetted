@@ -1,0 +1,50 @@
+{
+  "id": "sse_parser",
+  "version": "1.0.0",
+  "description": "Incremental SSE parser for streaming LLM responses",
+  "tags": [
+    "llm",
+    "streaming",
+    "sse",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "sse_parser",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "Event",
+      "params": [],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "SSEParser.feed",
+      "params": [
+        "chunk: str"
+      ],
+      "returns": "list[Event]",
+      "doc": "Append a chunk and return every event completed by it."
+    },
+    {
+      "name": "SSEParser.close",
+      "params": [],
+      "returns": "list[Event]",
+      "doc": "Finish the stream, emitting any event not terminated by a blank line."
+    },
+    {
+      "name": "is_done",
+      "params": [
+        "event: Event",
+        "sentinel: str"
+      ],
+      "returns": "bool",
+      "doc": "Whether this event is the stream terminator many LLM APIs send."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

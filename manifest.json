@@ -1,0 +1,418 @@
+{
+  "version": 1,
+  "units": [
+    {
+      "id": "batch_iter",
+      "version": "1.0.0",
+      "description": "Lazy batching, sliding windows, dedupe and grouping over iterables",
+      "tags": [
+        "iterator",
+        "batch",
+        "dedupe"
+      ],
+      "language": "python",
+      "entry": "batch_iter",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/batch_iter",
+      "api": [
+        "batched(items: Iterable[T], size: int)",
+        "windowed(items: Iterable[T], size: int, step: int)",
+        "dedupe(items: Iterable[T], key: Callable[[T], Any] | None)",
+        "chunk_by(items: Iterable[T], key: Callable[[T], Any])",
+        "take(items: Iterable[T], n: int)"
+      ]
+    },
+    {
+      "id": "context_assembler",
+      "version": "1.0.0",
+      "description": "Assemble prompt context from prioritised sections under a budget",
+      "tags": [
+        "llm",
+        "context",
+        "prompt",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "context_assembler",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/context_assembler",
+      "api": [
+        "estimate_tokens(text: str)",
+        "Section()",
+        "Assembled.complete()",
+        "assemble(sections: list[Section], budget: int, counter: Callable[[str], int], separator: str)",
+        "report(result: Assembled)"
+      ]
+    },
+    {
+      "id": "conversation_memory",
+      "version": "1.0.0",
+      "description": "Chat memory with token budget, pinned turns, oldest-first trim",
+      "tags": [
+        "llm",
+        "memory",
+        "context",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "conversation_memory",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/conversation_memory",
+      "api": [
+        "estimate_tokens(text: str)",
+        "Message(role: str, content: str, pinned: bool)",
+        "ConversationMemory(budget: int, counter: Callable[[str], int], keep_recent: int)",
+        "ConversationMemory.add(role: str, content: str, pinned: bool)",
+        "ConversationMemory.extend(messages: Iterable[dict])",
+        "ConversationMemory.tokens()",
+        "ConversationMemory.trim()",
+        "ConversationMemory.render()",
+        "ConversationMemory.clear(keep_system: bool)"
+      ]
+    },
+    {
+      "id": "env_config",
+      "version": "1.0.0",
+      "description": "Typed environment variable reading with required checks",
+      "tags": [
+        "config",
+        "env",
+        "startup"
+      ],
+      "language": "python",
+      "entry": "env_config",
+      "effects": [
+        "env"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/env_config",
+      "api": [
+        "ConfigError()",
+        "get_str(name: str, default, env: Mapping[str, str] | None)",
+        "get_int(name: str, default, env: Mapping[str, str] | None)",
+        "get_float(name: str, default, env: Mapping[str, str] | None)",
+        "get_bool(name: str, default, env: Mapping[str, str] | None)",
+        "get_list(name: str, default, separator: str, env: Mapping[str, str] | None)",
+        "require_all(names: list[str], env: Mapping[str, str] | None)"
+      ]
+    },
+    {
+      "id": "json_repair",
+      "version": "1.0.0",
+      "description": "Recover JSON from LLM output: fences, prose, trailing commas, truncation",
+      "tags": [
+        "llm",
+        "json",
+        "parsing",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "json_repair",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/json_repair",
+      "api": [
+        "UnrepairableJSON()",
+        "strip_fences(text: str)",
+        "find_payload(text: str)",
+        "close_unbalanced(payload: str)",
+        "repair(text: str)",
+        "loads(text: str, default: Any)"
+      ]
+    },
+    {
+      "id": "json_store",
+      "version": "1.0.0",
+      "description": "Atomic JSON file read/write/update/append",
+      "tags": [
+        "storage",
+        "json",
+        "atomic"
+      ],
+      "language": "python",
+      "entry": "json_store",
+      "effects": [
+        "env",
+        "fs"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/json_store",
+      "api": [
+        "StoreError()",
+        "read(path: str | Path, default: Any)",
+        "write(path: str | Path, data: Any, indent: int)",
+        "update(path: str | Path, changes: dict, indent: int)",
+        "append(path: str | Path, item: Any, indent: int)"
+      ]
+    },
+    {
+      "id": "jsonl_log",
+      "version": "1.0.0",
+      "description": "Append-only JSONL event log, survives a crashed run",
+      "tags": [
+        "logging",
+        "jsonl",
+        "trace",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "jsonl_log",
+      "effects": [
+        "fs"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/jsonl_log",
+      "api": [
+        "JSONLLog(path: str | Path, clock: Callable[[], float] | None, redact: Callable[[Any], Any] | None)",
+        "JSONLLog.append(event: str)",
+        "JSONLLog.read(skip_broken: bool)",
+        "JSONLLog.iter_records(skip_broken: bool)",
+        "JSONLLog.count(event: str | None)",
+        "JSONLLog.filter()",
+        "JSONLLog.tail(n: int)",
+        "JSONLLog.clear()"
+      ]
+    },
+    {
+      "id": "retry",
+      "version": "1.0.0",
+      "description": "Retry with exponential backoff, injectable sleep",
+      "tags": [
+        "retry",
+        "backoff",
+        "resilience"
+      ],
+      "language": "python",
+      "entry": "retry",
+      "effects": [
+        "time"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/retry",
+      "api": [
+        "RetryExhausted(attempts: int, last: BaseException)",
+        "backoff_delays(attempts: int, base: float, factor: float, cap: float)",
+        "retry(fn: Callable[[], T], attempts: int, base: float, factor: float, cap: float, retry_on: Iterable[type[BaseException]], sleep: Callable[[float], None])"
+      ]
+    },
+    {
+      "id": "safe_path",
+      "version": "1.0.0",
+      "description": "Confine user-supplied paths to a base directory",
+      "tags": [
+        "security",
+        "path",
+        "traversal"
+      ],
+      "language": "python",
+      "entry": "safe_path",
+      "effects": [
+        "fs"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/safe_path",
+      "api": [
+        "UnsafePath()",
+        "safe_name(name: str, fallback: str)",
+        "safe_join(base: str | Path)",
+        "is_inside(base: str | Path, target: str | Path)"
+      ]
+    },
+    {
+      "id": "secret_mask",
+      "version": "1.0.0",
+      "description": "Redact credentials in logs, dicts and prompts",
+      "tags": [
+        "security",
+        "logging",
+        "redaction"
+      ],
+      "language": "python",
+      "entry": "secret_mask",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/secret_mask",
+      "api": [
+        "is_secret_key(key: str)",
+        "mask_value(value: str, keep: int)",
+        "mask_text(text: str)",
+        "mask_data(data: Any, keep: int)"
+      ]
+    },
+    {
+      "id": "semver",
+      "version": "1.0.0",
+      "description": "Semantic version parsing, comparison and bumping",
+      "tags": [
+        "version",
+        "semver",
+        "compare"
+      ],
+      "language": "python",
+      "entry": "semver",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/semver",
+      "api": [
+        "InvalidVersion()",
+        "Version.is_prerelease()",
+        "Version.bump(part: str)",
+        "parse(text: str)",
+        "sort_key(version: Version)",
+        "compare(a: str, b: str)",
+        "satisfies(version: str, minimum: str)",
+        "latest(versions: list[str])"
+      ]
+    },
+    {
+      "id": "sse_parser",
+      "version": "1.0.0",
+      "description": "Incremental SSE parser for streaming LLM responses",
+      "tags": [
+        "llm",
+        "streaming",
+        "sse",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "sse_parser",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/sse_parser",
+      "api": [
+        "Event()",
+        "SSEParser.feed(chunk: str)",
+        "SSEParser.close()",
+        "is_done(event: Event, sentinel: str)"
+      ]
+    },
+    {
+      "id": "text_chunker",
+      "version": "1.0.0",
+      "description": "Split long text into overlapping chunks on sentence boundaries",
+      "tags": [
+        "text",
+        "chunking",
+        "llm"
+      ],
+      "language": "python",
+      "entry": "text_chunker",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/text_chunker",
+      "api": [
+        "chunk(text: str, size: int, overlap: int)",
+        "total_chars(chunks: list[str])"
+      ]
+    },
+    {
+      "id": "token_bucket",
+      "version": "1.0.0",
+      "description": "Token bucket rate limiter with injectable clock",
+      "tags": [
+        "ratelimit",
+        "throttle"
+      ],
+      "language": "python",
+      "entry": "token_bucket",
+      "effects": [
+        "time"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/token_bucket",
+      "api": [
+        "TokenBucket(capacity: int, refill_per_sec: float, clock: Callable[[], float])",
+        "TokenBucket.tokens()",
+        "TokenBucket.take(n: int)",
+        "TokenBucket.wait_time(n: int)"
+      ]
+    },
+    {
+      "id": "tool_registry",
+      "version": "1.0.0",
+      "description": "Expose Python callables as LLM tools and dispatch calls back",
+      "tags": [
+        "llm",
+        "tools",
+        "agent"
+      ],
+      "language": "python",
+      "entry": "tool_registry",
+      "effects": [
+        "pure"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/tool_registry",
+      "api": [
+        "ToolError()",
+        "build_schema(fn: Callable)",
+        "ToolRegistry()",
+        "ToolRegistry.register(fn: Callable, name: str | None)",
+        "ToolRegistry.unregister(name: str)",
+        "ToolRegistry.schemas()",
+        "ToolRegistry.call(name: str, arguments: dict | None)"
+      ]
+    },
+    {
+      "id": "ttl_cache",
+      "version": "1.0.0",
+      "description": "LRU cache with per-entry TTL, injectable clock",
+      "tags": [
+        "cache",
+        "ttl",
+        "lru"
+      ],
+      "language": "python",
+      "entry": "ttl_cache",
+      "effects": [
+        "time"
+      ],
+      "deps": [],
+      "verified": true,
+      "path": "units/ttl_cache",
+      "api": [
+        "TTLCache(maxsize: int, ttl: float, clock: Callable[[], float])",
+        "TTLCache.purge()",
+        "TTLCache.get(key, default)",
+        "TTLCache.set(key, value, ttl: float | None)",
+        "TTLCache.delete(key)",
+        "TTLCache.clear()",
+        "TTLCache.get_or_set(key, factory: Callable[[], Any], ttl: float | None)"
+      ]
+    }
+  ]
+}

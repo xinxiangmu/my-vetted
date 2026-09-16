@@ -1,0 +1,86 @@
+{
+  "id": "env_config",
+  "version": "1.0.0",
+  "description": "Typed environment variable reading with required checks",
+  "tags": [
+    "config",
+    "env",
+    "startup"
+  ],
+  "language": "python",
+  "entry": "env_config",
+  "effects": [
+    "env"
+  ],
+  "signatures": [
+    {
+      "name": "ConfigError",
+      "params": [],
+      "returns": null,
+      "doc": "A required setting is absent, or a present setting has the wrong shape."
+    },
+    {
+      "name": "get_str",
+      "params": [
+        "name: str",
+        "default",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "str",
+      "doc": null
+    },
+    {
+      "name": "get_int",
+      "params": [
+        "name: str",
+        "default",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "int",
+      "doc": null
+    },
+    {
+      "name": "get_float",
+      "params": [
+        "name: str",
+        "default",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "float",
+      "doc": null
+    },
+    {
+      "name": "get_bool",
+      "params": [
+        "name: str",
+        "default",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "get_list",
+      "params": [
+        "name: str",
+        "default",
+        "separator: str",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "list[str]",
+      "doc": null
+    },
+    {
+      "name": "require_all",
+      "params": [
+        "names: list[str]",
+        "env: Mapping[str, str] | None"
+      ],
+      "returns": "None",
+      "doc": "Check every required setting at startup, and report all of them at once."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

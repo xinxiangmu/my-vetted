@@ -1,0 +1,68 @@
+{
+  "id": "json_repair",
+  "version": "1.0.0",
+  "description": "Recover JSON from LLM output: fences, prose, trailing commas, truncation",
+  "tags": [
+    "llm",
+    "json",
+    "parsing",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "json_repair",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "UnrepairableJSON",
+      "params": [],
+      "returns": null,
+      "doc": "No JSON-shaped payload could be recovered from the text."
+    },
+    {
+      "name": "strip_fences",
+      "params": [
+        "text: str"
+      ],
+      "returns": "str",
+      "doc": "Return the contents of the first code fence, or the text unchanged."
+    },
+    {
+      "name": "find_payload",
+      "params": [
+        "text: str"
+      ],
+      "returns": "str",
+      "doc": "The outermost {...} or [...] span, ignoring surrounding prose."
+    },
+    {
+      "name": "close_unbalanced",
+      "params": [
+        "payload: str"
+      ],
+      "returns": "str",
+      "doc": "Append the brackets a truncated response never got to write."
+    },
+    {
+      "name": "repair",
+      "params": [
+        "text: str"
+      ],
+      "returns": "str",
+      "doc": "Best-effort repair of a JSON string. Does not parse it."
+    },
+    {
+      "name": "loads",
+      "params": [
+        "text: str",
+        "default: Any"
+      ],
+      "returns": "Any",
+      "doc": "Parse JSON from messy text. Returns `default` only if `default` was given."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

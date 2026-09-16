@@ -1,0 +1,54 @@
+{
+  "id": "retry",
+  "version": "1.0.0",
+  "description": "Retry with exponential backoff, injectable sleep",
+  "tags": [
+    "retry",
+    "backoff",
+    "resilience"
+  ],
+  "language": "python",
+  "entry": "retry",
+  "effects": [
+    "time"
+  ],
+  "signatures": [
+    {
+      "name": "RetryExhausted",
+      "params": [
+        "attempts: int",
+        "last: BaseException"
+      ],
+      "returns": null,
+      "doc": "Raised when every attempt failed. Carries the last exception."
+    },
+    {
+      "name": "backoff_delays",
+      "params": [
+        "attempts: int",
+        "base: float",
+        "factor: float",
+        "cap: float"
+      ],
+      "returns": "list[float]",
+      "doc": "Delays between attempts. One fewer than `attempts` - the first is immediate."
+    },
+    {
+      "name": "retry",
+      "params": [
+        "fn: Callable[[], T]",
+        "attempts: int",
+        "base: float",
+        "factor: float",
+        "cap: float",
+        "retry_on: Iterable[type[BaseException]]",
+        "sleep: Callable[[float], None]"
+      ],
+      "returns": "T",
+      "doc": "Call fn until it returns. Re-raises immediately for non-retryable errors."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

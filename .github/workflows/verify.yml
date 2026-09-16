@@ -1,0 +1,48 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # A unit that silently rots is worse than no unit. Re-run every unit's own
+    # tests weekly, so "verified" keeps meaning something after the commit.
+    - cron: "0 3 * * 1"
+
+jobs:
+  units:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - name: every unit's own tests must pass
+        run: |
+          set -e
+          fail=0
+          for d in units/*/; do
+            name=$(basename "$d")
+            if ! (cd "$d" && python -m pytest -q tests); then
+              echo "::error::$name failed its own tests"
+              fail=1
+            fi
+          done
+          exit $fail
+      - name: manifest must match the units on disk
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          manifest = json.loads(pathlib.Path("manifest.json").read_text(encoding="utf-8"))
+          listed = {u["id"] for u in manifest["units"]}
+          on_disk = {p.name for p in pathlib.Path("units").iterdir() if p.is_dir()}
+          if listed != on_disk:
+              print("manifest and units/ disagree:", listed ^ on_disk)
+              sys.exit(1)
+          unverified = [u["id"] for u in manifest["units"] if not u["verified"]]
+          if unverified:
+              print("unverified units in manifest:", unverified)
+              sys.exit(1)
+          print(f"{len(listed)} units, all verified")
+          PY

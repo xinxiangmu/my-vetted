@@ -1,0 +1,66 @@
+{
+  "id": "json_store",
+  "version": "1.0.0",
+  "description": "Atomic JSON file read/write/update/append",
+  "tags": [
+    "storage",
+    "json",
+    "atomic"
+  ],
+  "language": "python",
+  "entry": "json_store",
+  "effects": [
+    "env",
+    "fs"
+  ],
+  "signatures": [
+    {
+      "name": "StoreError",
+      "params": [],
+      "returns": null,
+      "doc": "The file exists but does not hold usable JSON."
+    },
+    {
+      "name": "read",
+      "params": [
+        "path: str | Path",
+        "default: Any"
+      ],
+      "returns": "Any",
+      "doc": "Read JSON. Returns `default` if the file does not exist."
+    },
+    {
+      "name": "write",
+      "params": [
+        "path: str | Path",
+        "data: Any",
+        "indent: int"
+      ],
+      "returns": "Path",
+      "doc": "Write JSON atomically. Creates parent directories as needed."
+    },
+    {
+      "name": "update",
+      "params": [
+        "path: str | Path",
+        "changes: dict",
+        "indent: int"
+      ],
+      "returns": "dict",
+      "doc": "Merge `changes` into the stored object and write it back."
+    },
+    {
+      "name": "append",
+      "params": [
+        "path: str | Path",
+        "item: Any",
+        "indent: int"
+      ],
+      "returns": "list",
+      "doc": "Append to the stored list and write it back."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

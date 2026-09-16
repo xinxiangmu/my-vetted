@@ -1,0 +1,79 @@
+{
+  "id": "ttl_cache",
+  "version": "1.0.0",
+  "description": "LRU cache with per-entry TTL, injectable clock",
+  "tags": [
+    "cache",
+    "ttl",
+    "lru"
+  ],
+  "language": "python",
+  "entry": "ttl_cache",
+  "effects": [
+    "time"
+  ],
+  "signatures": [
+    {
+      "name": "TTLCache",
+      "params": [
+        "maxsize: int",
+        "ttl: float",
+        "clock: Callable[[], float]"
+      ],
+      "returns": null,
+      "doc": "Least-recently-used eviction at `maxsize`, plus time-based expiry."
+    },
+    {
+      "name": "TTLCache.purge",
+      "params": [],
+      "returns": "int",
+      "doc": "Drop expired entries. Returns how many were removed."
+    },
+    {
+      "name": "TTLCache.get",
+      "params": [
+        "key",
+        "default"
+      ],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "TTLCache.set",
+      "params": [
+        "key",
+        "value",
+        "ttl: float | None"
+      ],
+      "returns": "None",
+      "doc": null
+    },
+    {
+      "name": "TTLCache.delete",
+      "params": [
+        "key"
+      ],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "TTLCache.clear",
+      "params": [],
+      "returns": "None",
+      "doc": null
+    },
+    {
+      "name": "TTLCache.get_or_set",
+      "params": [
+        "key",
+        "factory: Callable[[], Any]",
+        "ttl: float | None"
+      ],
+      "returns": null,
+      "doc": "Return the cached value, computing and storing it on a miss."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

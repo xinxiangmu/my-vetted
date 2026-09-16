@@ -1,0 +1,83 @@
+{
+  "id": "jsonl_log",
+  "version": "1.0.0",
+  "description": "Append-only JSONL event log, survives a crashed run",
+  "tags": [
+    "logging",
+    "jsonl",
+    "trace",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "jsonl_log",
+  "effects": [
+    "fs"
+  ],
+  "signatures": [
+    {
+      "name": "JSONLLog",
+      "params": [
+        "path: str | Path",
+        "clock: Callable[[], float] | None",
+        "redact: Callable[[Any], Any] | None"
+      ],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "JSONLLog.append",
+      "params": [
+        "event: str"
+      ],
+      "returns": "dict",
+      "doc": "Write one record. Returns the record as written."
+    },
+    {
+      "name": "JSONLLog.read",
+      "params": [
+        "skip_broken: bool"
+      ],
+      "returns": "list[dict]",
+      "doc": "Every readable record. A truncated final line is skipped by default."
+    },
+    {
+      "name": "JSONLLog.iter_records",
+      "params": [
+        "skip_broken: bool"
+      ],
+      "returns": "Iterator[dict]",
+      "doc": null
+    },
+    {
+      "name": "JSONLLog.count",
+      "params": [
+        "event: str | None"
+      ],
+      "returns": "int",
+      "doc": null
+    },
+    {
+      "name": "JSONLLog.filter",
+      "params": [],
+      "returns": "list[dict]",
+      "doc": null
+    },
+    {
+      "name": "JSONLLog.tail",
+      "params": [
+        "n: int"
+      ],
+      "returns": "list[dict]",
+      "doc": null
+    },
+    {
+      "name": "JSONLLog.clear",
+      "params": [],
+      "returns": "None",
+      "doc": null
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

@@ -1,0 +1,66 @@
+{
+  "id": "batch_iter",
+  "version": "1.0.0",
+  "description": "Lazy batching, sliding windows, dedupe and grouping over iterables",
+  "tags": [
+    "iterator",
+    "batch",
+    "dedupe"
+  ],
+  "language": "python",
+  "entry": "batch_iter",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "batched",
+      "params": [
+        "items: Iterable[T]",
+        "size: int"
+      ],
+      "returns": "Iterator[list[T]]",
+      "doc": "Consecutive lists of at most `size`. The final batch may be shorter."
+    },
+    {
+      "name": "windowed",
+      "params": [
+        "items: Iterable[T]",
+        "size: int",
+        "step: int"
+      ],
+      "returns": "Iterator[list[T]]",
+      "doc": "Sliding windows of exactly `size`. Yields nothing if the input is shorter."
+    },
+    {
+      "name": "dedupe",
+      "params": [
+        "items: Iterable[T]",
+        "key: Callable[[T], Any] | None"
+      ],
+      "returns": "Iterator[T]",
+      "doc": "First occurrence wins, original order preserved."
+    },
+    {
+      "name": "chunk_by",
+      "params": [
+        "items: Iterable[T]",
+        "key: Callable[[T], Any]"
+      ],
+      "returns": "Iterator[list[T]]",
+      "doc": "Group consecutive items sharing a key. Does not sort first."
+    },
+    {
+      "name": "take",
+      "params": [
+        "items: Iterable[T]",
+        "n: int"
+      ],
+      "returns": "list[T]",
+      "doc": "First n items, without consuming more of the source than needed."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

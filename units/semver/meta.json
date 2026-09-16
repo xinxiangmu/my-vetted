@@ -1,0 +1,82 @@
+{
+  "id": "semver",
+  "version": "1.0.0",
+  "description": "Semantic version parsing, comparison and bumping",
+  "tags": [
+    "version",
+    "semver",
+    "compare"
+  ],
+  "language": "python",
+  "entry": "semver",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "InvalidVersion",
+      "params": [],
+      "returns": null,
+      "doc": "The string is not a semantic version."
+    },
+    {
+      "name": "Version.is_prerelease",
+      "params": [],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "Version.bump",
+      "params": [
+        "part: str"
+      ],
+      "returns": "'Version'",
+      "doc": "Next version. Bumping drops any pre-release and build metadata."
+    },
+    {
+      "name": "parse",
+      "params": [
+        "text: str"
+      ],
+      "returns": "Version",
+      "doc": null
+    },
+    {
+      "name": "sort_key",
+      "params": [
+        "version: Version"
+      ],
+      "returns": "tuple",
+      "doc": "Build metadata is excluded from ordering, per the specification."
+    },
+    {
+      "name": "compare",
+      "params": [
+        "a: str",
+        "b: str"
+      ],
+      "returns": "int",
+      "doc": "-1 if a < b, 0 if equal, 1 if a > b."
+    },
+    {
+      "name": "satisfies",
+      "params": [
+        "version: str",
+        "minimum: str"
+      ],
+      "returns": "bool",
+      "doc": "Whether `version` is at least `minimum`."
+    },
+    {
+      "name": "latest",
+      "params": [
+        "versions: list[str]"
+      ],
+      "returns": "str",
+      "doc": null
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

@@ -1,0 +1,93 @@
+{
+  "id": "conversation_memory",
+  "version": "1.0.0",
+  "description": "Chat memory with token budget, pinned turns, oldest-first trim",
+  "tags": [
+    "llm",
+    "memory",
+    "context",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "conversation_memory",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "estimate_tokens",
+      "params": [
+        "text: str"
+      ],
+      "returns": "int",
+      "doc": "Rough count: ~4 characters per token, floor of 1 for non-empty text."
+    },
+    {
+      "name": "Message",
+      "params": [
+        "role: str",
+        "content: str",
+        "pinned: bool"
+      ],
+      "returns": null,
+      "doc": "A chat message. A dict so it serialises straight into an API payload."
+    },
+    {
+      "name": "ConversationMemory",
+      "params": [
+        "budget: int",
+        "counter: Callable[[str], int]",
+        "keep_recent: int"
+      ],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "ConversationMemory.add",
+      "params": [
+        "role: str",
+        "content: str",
+        "pinned: bool"
+      ],
+      "returns": "Message",
+      "doc": null
+    },
+    {
+      "name": "ConversationMemory.extend",
+      "params": [
+        "messages: Iterable[dict]"
+      ],
+      "returns": "None",
+      "doc": null
+    },
+    {
+      "name": "ConversationMemory.tokens",
+      "params": [],
+      "returns": "int",
+      "doc": null
+    },
+    {
+      "name": "ConversationMemory.trim",
+      "params": [],
+      "returns": "int",
+      "doc": "Drop oldest unprotected messages until within budget. Returns count dropped."
+    },
+    {
+      "name": "ConversationMemory.render",
+      "params": [],
+      "returns": "list[dict]",
+      "doc": "Messages ready to send, trimmed to budget."
+    },
+    {
+      "name": "ConversationMemory.clear",
+      "params": [
+        "keep_system: bool"
+      ],
+      "returns": "None",
+      "doc": null
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

@@ -1,0 +1,52 @@
+{
+  "id": "safe_path",
+  "version": "1.0.0",
+  "description": "Confine user-supplied paths to a base directory",
+  "tags": [
+    "security",
+    "path",
+    "traversal"
+  ],
+  "language": "python",
+  "entry": "safe_path",
+  "effects": [
+    "fs"
+  ],
+  "signatures": [
+    {
+      "name": "UnsafePath",
+      "params": [],
+      "returns": null,
+      "doc": "The requested path escapes the base directory or is otherwise unusable."
+    },
+    {
+      "name": "safe_name",
+      "params": [
+        "name: str",
+        "fallback: str"
+      ],
+      "returns": "str",
+      "doc": "Reduce a string to a single usable filename component."
+    },
+    {
+      "name": "safe_join",
+      "params": [
+        "base: str | Path"
+      ],
+      "returns": "Path",
+      "doc": "Join under `base` and verify the result stays inside it."
+    },
+    {
+      "name": "is_inside",
+      "params": [
+        "base: str | Path",
+        "target: str | Path"
+      ],
+      "returns": "bool",
+      "doc": "Whether `target` resolves to something inside `base`."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "secret_mask",
+  "version": "1.0.0",
+  "description": "Redact credentials in logs, dicts and prompts",
+  "tags": [
+    "security",
+    "logging",
+    "redaction"
+  ],
+  "language": "python",
+  "entry": "secret_mask",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "is_secret_key",
+      "params": [
+        "key: str"
+      ],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "mask_value",
+      "params": [
+        "value: str",
+        "keep: int"
+      ],
+      "returns": "str",
+      "doc": "Replace a value with MASK, optionally keeping the last `keep` characters."
+    },
+    {
+      "name": "mask_text",
+      "params": [
+        "text: str"
+      ],
+      "returns": "str",
+      "doc": "Redact credential-shaped substrings in free text."
+    },
+    {
+      "name": "mask_data",
+      "params": [
+        "data: Any",
+        "keep: int"
+      ],
+      "returns": "Any",
+      "doc": "Walk dicts and lists, masking values whose key name looks like a secret."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "context_assembler",
+  "version": "1.0.0",
+  "description": "Assemble prompt context from prioritised sections under a budget",
+  "tags": [
+    "llm",
+    "context",
+    "prompt",
+    "agent"
+  ],
+  "language": "python",
+  "entry": "context_assembler",
+  "effects": [
+    "pure"
+  ],
+  "signatures": [
+    {
+      "name": "estimate_tokens",
+      "params": [
+        "text: str"
+      ],
+      "returns": "int",
+      "doc": null
+    },
+    {
+      "name": "Section",
+      "params": [],
+      "returns": null,
+      "doc": null
+    },
+    {
+      "name": "Assembled.complete",
+      "params": [],
+      "returns": "bool",
+      "doc": null
+    },
+    {
+      "name": "assemble",
+      "params": [
+        "sections: list[Section]",
+        "budget: int",
+        "counter: Callable[[str], int]",
+        "separator: str"
+      ],
+      "returns": "Assembled",
+      "doc": null
+    },
+    {
+      "name": "report",
+      "params": [
+        "result: Assembled"
+      ],
+      "returns": "str",
+      "doc": "One line stating what the model actually received."
+    }
+  ],
+  "deps": [],
+  "verified": true,
+  "test_command": "python -m pytest -q"
+}
