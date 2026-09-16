@@ -1,5 +1,7 @@
 # my-vetted
 
+[![verify](https://github.com/xinxiangmu/my-vetted/actions/workflows/verify.yml/badge.svg)](https://github.com/xinxiangmu/my-vetted/actions/workflows/verify.yml)
+
 A library of code that has been **used, tested, and approved** — built for
 [`vetted`](https://github.com/xinxiangmu/vetted), so a coding agent can pull a unit
 instead of writing one.
@@ -11,7 +13,7 @@ lets an agent use a unit without you reviewing it afterwards.
 ## Use it
 
 ```bash
-pip install vetted
+pip install git+https://github.com/xinxiangmu/vetted
 git clone https://github.com/xinxiangmu/my-vetted ~/my-vetted
 export VETTED_LIB=~/my-vetted
 
@@ -19,7 +21,7 @@ vetted search ratelimit
 vetted pull token_bucket
 ```
 
-Then point your agent at `vetted/skills/vetted-use/SKILL.md`.
+Then point your agent at [`skills/vetted-use/SKILL.md`](https://github.com/xinxiangmu/vetted/blob/main/skills/vetted-use/SKILL.md).
 
 ## Layout
 
