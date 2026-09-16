@@ -72,6 +72,17 @@ environments are injected, which is why they can be tested deterministically.
 Kill rate is the share of injected defects the unit's own tests caught. 60% is the
 admission floor.
 
+## Using this library runs its code
+
+`vetted pull` runs a unit's own tests in your environment — that is what lets you
+skip reviewing its source. It also means pulling from any library executes that
+library's code on your machine.
+
+Everything here is plain Python with no third-party dependencies and nothing fetched
+at runtime; `src/` and `tests/` are the whole of it, and reading a unit before use
+takes a minute. Trust this library the way you would trust any package publisher,
+or fork it and keep only what you have read.
+
 ## Contributions
 
 Not open yet. The value of this library is that one person has actually used and
